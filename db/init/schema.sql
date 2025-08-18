@@ -1,0 +1,6 @@
+CREATE TABLE reservations (
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    item_id BIGINT NOT NULL,
+    reserved_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
