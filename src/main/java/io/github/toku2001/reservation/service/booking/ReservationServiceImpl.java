@@ -28,6 +28,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	@Cacheable(value = "reservationCache", key = "#id")
 	public Reservation getReservation(Long id) {
+		System.out.println(">>> DBアクセス発生: getReservation(" + id + ")");
 		Reservation reservation = reservationMapper.findById(id);
 		return reservation;
 	}
