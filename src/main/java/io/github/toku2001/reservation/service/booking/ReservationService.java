@@ -4,6 +4,7 @@ import io.github.toku2001.reservation.entity.Reservation;
 
 public interface ReservationService {
 	boolean createBooking(Reservation reservation);
-	Reservation getReservation(Long id);
-	boolean deleteReservation(Long id);
+	Reservation getReservation(int id);
+	boolean deleteReservation(int id, int userId);
+	boolean updateReservation(Reservation reservation);
 }
