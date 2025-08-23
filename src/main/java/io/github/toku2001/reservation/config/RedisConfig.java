@@ -1,5 +1,7 @@
 package io.github.toku2001.reservation.config;
 
+import java.time.Duration;
+
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +45,9 @@ public class RedisConfig {
         GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper());
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
+        		// TTL を 300秒に設定
+                .entryTtl(Duration.ofSeconds(300))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(config)
