@@ -10,15 +10,27 @@
     VALUES (#{userId}, #{itemId}, #{reservedAt})
   </insert>
 
-  <select id="findById" resultType="io.github.toku2001.reservation.entity.Reservation">
+  <resultMap id="ReservationResultMap" type="io.github.toku2001.reservation.entity.Reservation">
+    <id column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <result column="item_id" property="itemId"/>
+    <result column="reserved_at" property="reservedAt" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+  </resultMap>
+  
+  <select id="findById" resultMap="ReservationResultMap">
     SELECT id, user_id, item_id, reserved_at
     FROM reservations
     WHERE id = #{id}
   </select>
   
-  <delete id="deleteById" parameterType="long">
+  <delete id="deleteById" parameterType="int">
     DELETE FROM reservations
-    WHERE id = #{id}
+    WHERE id = #{id} AND user_id = #{userId}
   </delete>
+   
+  <update id="updateReservation" parameterType="io.github.toku2001.reservation.entity.Reservation">
+  UPDATE reservations SET user_id = #{userId}, item_id = #{itemId}, reserved_at = #{reservedAt}
+  WHERE id = #{id}
+  </update>
 
 </mapper>
