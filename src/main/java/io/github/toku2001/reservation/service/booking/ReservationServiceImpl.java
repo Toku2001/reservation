@@ -47,9 +47,6 @@ public class ReservationServiceImpl implements ReservationService {
 		System.out.println(">>> DBアクセス発生: updateReservation(" + reservation.getId() + ")");
 		int resultNumber = reservationMapper.updateReservation(reservation);
 		if(resultNumber == 1) {
-			//MyBatisではアップデート文の戻り値を更新行にすることはできないため改め更新行を取得
-			System.out.println(">>> DBアクセス発生: getReservation(" + reservation.getId() + ")");
-			Reservation updated = reservationMapper.findById(reservation.getId());
 			return true;
 		}
 		return false;
