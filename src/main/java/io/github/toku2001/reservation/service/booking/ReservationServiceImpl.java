@@ -14,9 +14,6 @@ public class ReservationServiceImpl implements ReservationService {
 	
 	@Autowired
 	private ReservationMapper reservationMapper;
-	
-	@Autowired
-	private CacheManager cacheManager;
 
 	@Override
 	public boolean createBooking(Reservation reservation) {
@@ -29,7 +26,6 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
-	@Cacheable(value = "reservationCache", key = "#userId")
 	public Reservation getReservation(int userId) {
 		System.out.println(">>> DBアクセス発生: getReservation(" + userId + ")");
 		Reservation reservation = reservationMapper.findById(userId);
@@ -37,7 +33,6 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
-	@CacheEvict(value = "reservationCache", key = "#userId")
 	public boolean deleteReservation(int id, int userId) {
 		System.out.println(">>> DBアクセス発生: deleteReservation(" + id + ")(" + userId + ")");
 		int resultNumber = reservationMapper.deleteById(id, userId);
@@ -55,7 +50,6 @@ public class ReservationServiceImpl implements ReservationService {
 			//MyBatisではアップデート文の戻り値を更新行にすることはできないため改め更新行を取得
 			System.out.println(">>> DBアクセス発生: getReservation(" + reservation.getId() + ")");
 			Reservation updated = reservationMapper.findById(reservation.getId());
-			cacheManager.getCache("reservationCache").put(updated.getUserId(), updated);
 			return true;
 		}
 		return false;
