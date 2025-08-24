@@ -28,11 +28,15 @@ function doPost(userId) {
         'POST body present': (r) => r.body.length > 0
     });
     successRate.add(success);
+
+    // POST 後に少し待ってキャッシュ構築時間を確保
+    sleep(0.5);
 }
 
 // GET
 function doGet(userId) {
     let res = http.get(`http://localhost:8080/reservation/${userId}`);
+
     let success = check(res, {
         'GET status 200': (r) => r.status === 200
     });
@@ -51,13 +55,13 @@ export let options = {
     },
 };
 
+let postDone = false;
+
+export function setup() {
+    doPost(FIXED_USER_ID);  // 全体で 1 件だけ POST
+}
+
 export default function () {
-    // 初回反復のみ固定ユーザーに POST（VU 内で1回だけ）
-    if (__ITER === 0) {
-        doPost(FIXED_USER_ID);
-    }
-
     doGet(FIXED_USER_ID);
-
     sleep(1);
 }
