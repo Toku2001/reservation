@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // === 入力ファイル（Before / After） ===
-const beforePath = path.resolve(__dirname, '../results/reservation_mixed_before_report.json');
-const afterPath  = path.resolve(__dirname, '../results/reservation_mixed_after_report.json');
+const beforePath = path.resolve(__dirname, '../results/reservation_get_before_report.json');
+const afterPath  = path.resolve(__dirname, '../results/reservation_get_after_report.json');
 
 // === 出力 HTML ===
 const outputPath = path.resolve(__dirname, '../results/reservation_report_comparison.html');
