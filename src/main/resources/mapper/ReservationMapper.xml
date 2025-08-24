@@ -12,6 +12,7 @@
 
   <resultMap id="ReservationResultMap" type="io.github.toku2001.reservation.entity.Reservation">
     <id column="id" property="id"/>
+    <result column="id" property="id"/>
     <result column="user_id" property="userId"/>
     <result column="item_id" property="itemId"/>
     <result column="reserved_at" property="reservedAt" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
@@ -21,6 +22,20 @@
     SELECT id, user_id, item_id, reserved_at
     FROM reservations
     WHERE id = #{id}
+  </select>
+  
+  <resultMap id="ReservationResultMapUserId" type="io.github.toku2001.reservation.entity.Reservation">
+    <id column="user_id" property="userId"/>
+    <result column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <result column="item_id" property="itemId"/>
+    <result column="reserved_at" property="reservedAt" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+  </resultMap>
+  
+  <select id="findByUserId" resultMap="ReservationResultMapUserId">
+    SELECT id, user_id, item_id, reserved_at
+    FROM reservations
+    WHERE user_id = #{userId}
   </select>
   
   <delete id="deleteById" parameterType="int">

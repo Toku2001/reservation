@@ -1,9 +1,8 @@
 package io.github.toku2001.reservation.service.booking;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import io.github.toku2001.reservation.entity.Reservation;
@@ -26,9 +25,9 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
-	public Reservation getReservation(int userId) {
+	public List<Reservation> getReservation(int userId) {
 		System.out.println(">>> DBアクセス発生: getReservation(" + userId + ")");
-		Reservation reservation = reservationMapper.findById(userId);
+		List<Reservation> reservation = reservationMapper.findByUserId(userId);
 		return reservation;
 	}
 	

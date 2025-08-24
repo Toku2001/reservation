@@ -1,6 +1,8 @@
 package io.github.toku2001.reservation.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +29,9 @@ public class ReservationController {
         return "Reservation created!";
     }
 
-    @GetMapping("/{id}")
-    public Reservation get(@PathVariable int id) {
-        return reservationService.getReservation(id);
+    @GetMapping("/{userId}")
+    public List<Reservation> get(@PathVariable int userId) {
+        return reservationService.getReservation(userId);
     }
     
     @DeleteMapping("/{id}/{userId}")
