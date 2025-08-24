@@ -21,8 +21,8 @@
 1. `docker-compose.yml` でコンテナを起動(Redis・Postgresql 接続設定を記載)
 2. Spring Boot アプリを起動
 3. Javascriptで作成したスクリプトファイルで、1分間の負荷テストを実施
-   - 使用したスクリプトファイル: `src/k6/reservation_mixed_test.js`
+   - 使用したスクリプトファイル: `src/k6/test/reservation_get_test.js`
    - キャッシュなし: `run-base`ブランチで負荷テストスクリプトファイルを実施
    - キャッシュあり: `feature/add-cache`ブランチで負荷テストスクリプトファイルを実施
 4. Javascriptで作成したスクリプトファイルで、テスト結果のJSONファイルを可視化するHTMLファイルを作成
-   - 使用したスクリプトファイル:　`src/k6/scripts/reservation_mixed_report.js`
+   - 使用したスクリプトファイル:　`src/k6/scripts/makereports/reservation_mixed_report.js`
