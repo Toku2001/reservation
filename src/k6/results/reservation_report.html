@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>k6 レポート</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th { background: #f4f4f4; }
+</style>
+</head>
+<body>
+<h1>k6 フェーズ別集計レポート</h1>
+<table>
+<tr>
+<th>フェーズ</th>
+<th>総リクエスト数</th>
+<th>平均レスポンス (ms)</th>
+<th>最大レスポンス (ms)</th>
+<th>チェック成功率 (%)</th>
+</tr>
+<tr>
+    <td>single_request</td>
+    <td>10</td>
+    <td>26.64</td>
+    <td>150.78</td>
+    <td>100.0</td>
+    </tr><tr>
+    <td>unknown</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    </tr><tr>
+    <td>low_load</td>
+    <td>300</td>
+    <td>17.59</td>
+    <td>39.23</td>
+    <td>100.0</td>
+    </tr><tr>
+    <td>high_load</td>
+    <td>3000</td>
+    <td>18.27</td>
+    <td>46.83</td>
+    <td>100.0</td>
+    </tr></table></body></html>
