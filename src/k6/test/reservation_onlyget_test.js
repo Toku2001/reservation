@@ -39,7 +39,7 @@ function doGet(userId) {
 // シナリオ設定（合計約1分）
 export let options = {
     stages: [
-        { duration: '10s', target: 0 },  // ウォームアップ
+        { duration: '10s', target: 10 },  // ウォームアップ
         { duration: '40s', target: 50 },  // 中負荷
         { duration: '10s', target: 0 }    // クールダウン
     ],
@@ -48,9 +48,14 @@ export let options = {
     },
 };
 
+let cacheWarmed = false;
+
 export function setup() {
     // 最初に 1 件だけレコードを登録
     insertInitialData(FIXED_USER_ID);
+	sleep(5);
+	doGet(FIXED_USER_ID);
+	sleep(5);
 }
 
 export default function () {
