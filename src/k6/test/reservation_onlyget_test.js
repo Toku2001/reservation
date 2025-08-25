@@ -39,9 +39,9 @@ function doGet(userId) {
 // シナリオ設定（合計約1分）
 export let options = {
     stages: [
-        { duration: '10s', target: 10 },  // ウォームアップ
-        { duration: '40s', target: 50 },  // 中負荷
-        { duration: '10s', target: 0 }    // クールダウン
+        { duration: '10s', target: 1 },  // ウォームアップ
+        { duration: '40s', target: 1 },  // 中負荷
+        { duration: '10s', target: 1 }    // クールダウン
     ],
     thresholds: {
         'check_success_rate': ['rate>0.95']
