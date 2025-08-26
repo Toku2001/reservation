@@ -1,9 +1,11 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { Rate } from 'k6/metrics';
+import { Rate, Trend } from 'k6/metrics';
 
 // チェック成功率
 export let successRate = new Rate('check_success_rate');
+// GET レスポンス専用メトリクス
+export let getDuration = new Trend('get_duration');
 
 // 固定ユーザーID
 const FIXED_USER_ID = 1;
@@ -34,6 +36,7 @@ function doGet(userId) {
         'GET status 200': (r) => r.status === 200
     });
     successRate.add(success);
+    getDuration.add(res.timings.duration); // 計測はここだけ
 }
 
 // シナリオ設定（合計約1分）
@@ -41,21 +44,21 @@ export let options = {
     stages: [
         { duration: '10s', target: 1 },  // ウォームアップ
         { duration: '40s', target: 1 },  // 中負荷
-        { duration: '10s', target: 1 }    // クールダウン
+        { duration: '10s', target: 1 }   // クールダウン
     ],
     thresholds: {
-        'check_success_rate': ['rate>0.95']
+        'check_success_rate': ['rate>0.95'],
+        'get_duration': ['p(95)<50'],   // GET の応答時間が 95%tile で 50ms 未満
     },
 };
-
-let cacheWarmed = false;
 
 export function setup() {
     // 最初に 1 件だけレコードを登録
     insertInitialData(FIXED_USER_ID);
-	sleep(5);
-	doGet(FIXED_USER_ID);
-	sleep(5);
+
+    // キャッシュ構築用の初回 GET (計測には含めない)
+    http.get(`http://localhost:8080/reservation/${FIXED_USER_ID}`);
+    sleep(5);
 }
 
 export default function () {
