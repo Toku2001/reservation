@@ -62,4 +62,24 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 		return false;
 	}
+	
+	//負荷テスト用のメソッド
+	@Override
+	public boolean createTestInformation(Reservation reservation) {
+		System.out.println(">>> DBアクセス発生: createTestReservation(" + reservation.getId() + ")");
+		int resultReservation = reservationMapper.createTestReservation(reservation);
+		System.out.println(">>> DBアクセス発生: createTestUsers(" + reservation.getId() + ")");
+		int resultUsers = reservationMapper.createTestUsers(reservation.getUserId());
+		if(resultReservation == 1 && resultUsers == 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	@Cacheable(value = "reservationCache", key = "'getOlderUsers'")
+	public Reservation getOlderUsers() {
+	    System.out.println(">>> DBアクセス発生: getOlderUsers");
+	    return reservationMapper.getOlderUsers();
+	}
 }

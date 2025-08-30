@@ -44,4 +44,17 @@ public class ReservationController {
     	reservationService.updateReservation(reservation);
     	return "Reservation updated!";
     }
+    
+    //負荷テスト計測用
+    //予約日時が最も古いユーザー情報を取得する
+    @PostMapping("/users/create")
+    public String createTestInformation(@RequestBody Reservation reservation) {
+    	reservationService.createBooking(reservation);
+        return "TestInformation created!";
+    }
+    
+    @GetMapping("/users/test")
+    public Reservation getOlderUsers() {
+        return reservationService.getOlderUsers();
+    }
 }
