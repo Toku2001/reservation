@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>k6 Before/After レポート</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th { background: #f4f4f4; }
+</style>
+</head>
+<body>
+<h1>k6 Before / After 比較レポート</h1>
+<table>
+<tr>
+<th>フェーズ</th>
+<th>Before 総リクエスト数</th>
+<th>After 総リクエスト数</th>
+<th>Before 平均レスポンス (ms)</th>
+<th>After 平均レスポンス (ms)</th>
+<th>Before 最大レスポンス (ms)</th>
+<th>After 最大レスポンス (ms)</th>
+<th>Before チェック成功率 (%)</th>
+<th>After チェック成功率 (%)</th>
+</tr>
+<tr>
+        <td>unknown</td>
+        <td>10001</td>
+        <td>10001</td>
+        <td>0.38</td>
+        <td>0.39</td>
+        <td>135.75</td>
+        <td>361.50</td>
+        <td>0.0</td>
+        <td>0.0</td>
+    </tr><tr>
+        <td>default</td>
+        <td>1403</td>
+        <td>1403</td>
+        <td>3.87</td>
+        <td>3.04</td>
+        <td>13.05</td>
+        <td>8.57</td>
+        <td>100.0</td>
+        <td>100.0</td>
+    </tr></table></body></html>

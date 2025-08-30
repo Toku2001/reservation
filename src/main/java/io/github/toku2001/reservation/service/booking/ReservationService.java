@@ -9,4 +9,8 @@ public interface ReservationService {
 	List<Reservation> getReservation(int userId);
 	boolean deleteReservation(int id, int userId);
 	boolean updateReservation(Reservation reservation);
+	
+	//負荷テスト用のメソッド
+	boolean createTestInformation(Reservation reservation);
+	Reservation getOlderUsers();
 }
