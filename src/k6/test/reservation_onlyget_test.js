@@ -7,62 +7,64 @@ export let successRate = new Rate('check_success_rate');
 // GET レスポンス専用メトリクス
 export let getDuration = new Trend('get_duration');
 
-// 固定ユーザーID
-const FIXED_USER_ID = 1;
-
 // POST データ作成関数
-function createPostData(userId) {
+function createPostData(userId, reservedAt) {
     return JSON.stringify({
         userId: userId,
         itemId: 10,
-        reservedAt: "2025-08-24T10:00:00"
+        reservedAt: reservedAt
     });
 }
 
-// 初期データ作成 (setup 内のみで 1 件実行)
-function insertInitialData(userId) {
-    const payload = createPostData(userId);
+// 初期データ作成 (1万件登録)
+function insertInitialData() {
     const params = { headers: { 'Content-Type': 'application/json' } };
-    let res = http.post('http://localhost:8080/reservation/booking', payload, params);
+    let baseTime = new Date("2025-08-24T10:00:00");
 
-    check(res, { 'Initial POST status 200': (r) => r.status === 200 });
+    for (let i = 1; i <= 10000; i++) {
+        // ユーザーごとに予約時刻をずらす
+        let reservedAt = new Date(baseTime.getTime() + i * 60000).toISOString(); 
+        const payload = createPostData(i, reservedAt);
+
+        let res = http.post('http://localhost:8080/reservation//users/create', payload, params);
+        check(res, { 'Initial POST status 200': (r) => r.status === 200 });
+    }
 }
 
 // GET のみを計測
-function doGet(userId) {
-    let res = http.get(`http://localhost:8080/reservation/${userId}`);
+function doGet() {
+    let res = http.get(`http://localhost:8080/reservation//users/test`);
 
     let success = check(res, {
         'GET status 200': (r) => r.status === 200
     });
     successRate.add(success);
-    getDuration.add(res.timings.duration); // 計測はここだけ
+    getDuration.add(res.timings.duration);
 }
 
-// シナリオ設定（合計約1分）
+// シナリオ設定
 export let options = {
     stages: [
-        { duration: '10s', target: 1 },  // ウォームアップ
-        { duration: '40s', target: 1 },  // 中負荷
-        { duration: '10s', target: 1 }   // クールダウン
+        { duration: '10s', target: 5 },  // ウォームアップ
+        { duration: '40s', target: 100 },  // 中負荷
+        { duration: '10s', target: 5 }   // クールダウン
     ],
     thresholds: {
         'check_success_rate': ['rate>0.95'],
-        'get_duration': ['p(95)<50'],   // GET の応答時間が 95%tile で 50ms 未満
+        'get_duration': ['p(95)<50'],
     },
 };
 
 export function setup() {
-    // 最初に 1 件だけレコードを登録
-    insertInitialData(FIXED_USER_ID);
+    // 1万件のレコード登録
+    insertInitialData();
 
-    // キャッシュ構築用の初回 GET (計測には含めない)
-    http.get(`http://localhost:8080/reservation/${FIXED_USER_ID}`);
+    // キャッシュ構築用の初回 GET
+    http.get(`http://localhost:8080/reservation//users/test`);
     sleep(5);
 }
 
-export default function () {
-    // 計測対象は GET のみ
-    doGet(FIXED_USER_ID);
+export default function (data) {
+    doGet();
     sleep(1);
 }
