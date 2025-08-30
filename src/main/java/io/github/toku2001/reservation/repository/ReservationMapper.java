@@ -13,4 +13,9 @@ public interface ReservationMapper {
     List<Reservation> findByUserId(int userId);
     int deleteById(int id, int userId);
     int updateReservation(Reservation reservation);
+    
+    //負荷テスト用に作成
+    int createTestReservation(Reservation reservation);
+    int createTestUsers(int userId);
+    Reservation getOlderUsers();
 }

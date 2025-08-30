@@ -47,5 +47,31 @@
   UPDATE reservations SET user_id = #{userId}, item_id = #{itemId}, reserved_at = #{reservedAt}
   WHERE id = #{id}
   </update>
+  
+  <insert id="createTestReservation" parameterType="io.github.toku2001.reservation.entity.Reservation">
+    INSERT INTO reservations (user_id, item_id, reserved_at)
+    VALUES (#{userId}, #{itemId}, #{reservedAt})
+  </insert>
+  
+  <insert id="createTestUsers" parameterType="io.github.toku2001.reservation.entity.Users">
+    INSERT INTO users (user_id)
+    VALUES (#{userId})
+  </insert>
+  
+  <resultMap id="TestResultMap" type="io.github.toku2001.reservation.entity.Reservation">
+    <id column="id" property="id"/>
+    <result column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <result column="item_id" property="itemId"/>
+    <result column="reserved_at" property="reservedAt" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+  </resultMap>
+  
+  <select id="getOlderUsers" resultMap="TestResultMap">
+    SELECT *
+	FROM reservations r
+	JOIN users u ON r.user_id = u.user_id
+	ORDER BY r.reserved_at ASC
+	LIMIT 1;
+  </select>
 
 </mapper>
